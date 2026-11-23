@@ -1,0 +1,15 @@
+import java.util.*;
+import java.io.IOException;
+import java.io.FileWriter;
+
+public class WriteText {
+    public static void main(String[] args) {
+      try ( FileWriter writer = new FileWriter ("John Paul.text")){
+          writer.write("Welcome to Java File Handling");
+          System.out.println("Text succesfully written.");
+         
+      } catch (IOException e) { System.out.println("Error writting to file.");
+          
+      }
+    }
+}
