@@ -1,16 +1,15 @@
 import java.util.*;
 import java.io.IOException;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FileReader;
+
 public class Main {
     public static void main(String[] args) {
-    try ( FileWriter write write = new FileWriter("Bajentingp4.text", true)){
-
-      writer.write("\nToday I learned FileWriter.");
-      System.out.println("New text added.");
-    } catch (IOException e) {
-      System.out.println("unable to update file.");
-      
-    }
+        try (FileWriter writer = new FileWriter("Bajentingp4.txt", true)) {
+            writer.write("\nToday I learned FileWriter.");
+            System.out.println("New text added.");
+        } catch (IOException e) {
+            System.out.println("Unable to update file.");
+        }
     }
 }
