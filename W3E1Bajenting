@@ -1,56 +1,90 @@
-import java.util.*;
-import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class W3E1Bajenting {
-	public static void main(String[] args) {
-		
-		 Scanner scanner = new Scanner(System.in);
-		 
-		 System.out.println("1) Add New Record");
-		 System.out.println("2) view Record");
+    public static void main(String[] args) {
 
-		 int choice= scanner.nextInt();
-		 switch (choice) {
-		 case 1:   
-			    try ( FileWriter writer = new FileWriter ("JohnPaul.text")){
-			    	
-			    	  System.out.println("Input ID");
-					    String id=scanner.next();	
-			    System.out.println("Input lastname");
-			    String lastname=scanner.next();
-	            
-	            System.out.println("Input Firtname");
-	            String Fristname=scanner.next();
-            	System.out.println("Input Course");
-            	String Course=scanner.next();
-            	
-            	writer.write(id+","+lastname+","+Fristname+","+Course+",");
-            	
-	            System.out.println("Text succesfully written.");
-	           
-	        } catch (IOException e) { System.out.println("Error writting to file.");
-	            
-	        }
-			 
-		 
-		 case 2:  
-			 try ( FileReader reader = new FileReader ("JohnPaul.text")){
-		            int ch;
-		            while ((ch =reader.read()) != - 1) {
-		                System.out.print((char) ch);
-		            }
-		            } catch ( IOException e){
-		                System.out.println("Error reading file.");
-		            }
-		 
-		 }
-		 
-		
-		
+        Scanner scanner = new Scanner(System.in);
 
-	    }
-	}
+        System.out.println("1) Add New Record");
+        System.out.println("2) View Record");
+        System.out.println("3) Search");
+        System.out.println("4) Exit");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // clear newline buffer
+
+        switch (choice) {
+            case 1:
+                try (FileWriter writer = new FileWriter("JohnPaul.text", true)) {
+                    System.out.println("Input ID:");
+                    String id = scanner.nextLine();
+
+                    System.out.println("Input Lastname:");
+                    String lastname = scanner.nextLine();
+
+                    System.out.println("Input Firstname:");
+                    String firstname = scanner.nextLine();
+
+                    System.out.println("Input Course:");
+                    String course = scanner.nextLine();
+
+                    writer.write(id + "," + lastname + "," + firstname + "," + course + System.lineSeparator());
+                    System.out.println("Text successfully written.");
+                } catch (IOException e) {
+                    System.out.println("Error writing to file.");
+                }
+                break;
+
+            case 2:
+                try (FileReader reader = new FileReader("JohnPaul.text")) {
+                    int ch;
+                    while ((ch = reader.read()) != -1) {
+                        System.out.print((char) ch);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error reading file.");
+                }
+                break;
+
+            case 3:
+                System.out.print("Enter student ID to search: ");
+                String searchQuery = scanner.nextLine().trim();
+                boolean found = false;
+
+                try (BufferedReader reader = new BufferedReader(new FileReader("JohnPaul.text"))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String[] record = line.split(",");
+
+                        if (record.length >= 4 && record[0].trim().equalsIgnoreCase(searchQuery)) {
+                            System.out.println("\n\tSTUDENT RECORD FOUND");
+                            System.out.println("ID: " + record[0].trim());
+                            System.out.println("lastname: " + record[1].trim());
+                            System.out.println("firstname: " + record[2].trim());
+                            System.out.println("course: " + record[3].trim());
+                            found = true;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("\nStudent record not found.");
+                    }
+                } catch (IOException e) {
+                    System.out.println("File error: " + e.getMessage());
+                }
+                break;
+
+            case 4:
+                System.out.println("Exit");
+                break;
+
+            default:
+                System.out.println("Invalid Input");
+        }
+
+        scanner.close();
+    }
+}
